@@ -1,6 +1,7 @@
 geopandas
 matplotlib
 pandas
+pandas-gbq
 gmaps
 flask
 shapely
