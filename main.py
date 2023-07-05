@@ -1,6 +1,6 @@
 # app.py
 import io
-from flask import Flask, send_file
+from flask import Flask, send_file, render_template
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import geopandas as gpd
 import matplotlib.pyplot as plt
@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Was auch immer'
+    return render_template('index.html')
 
 @app.route('/plot')
 def plot():
@@ -31,6 +31,13 @@ def plot():
 
     # Convert the DataFrame to a GeoDataFrame
     gdf = gpd.GeoDataFrame(data, geometry='geom')
+
+    # Convert the GeoDataFrame to GeoJSON
+    geojson = gdf.to_json()
+
+    # Write the GeoJSON to a file
+    with open('geojson.json', 'w') as f:
+        f.write(geojson)
 
     # Now, create your plot
     fig, ax = plt.subplots(1, 1)
